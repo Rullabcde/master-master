@@ -1,0 +1,72 @@
+version: "3"
+
+services:
+  mysql-master1:
+    image: mysql:8.0
+    container_name: mysql-master1
+    environment:
+      MYSQL_ROOT_PASSWORD: siswa
+      MYSQL_DATABASE: testdb
+      MYSQL_USER: rullabcd
+      MYSQL_PASSWORD: siswa
+    volumes:
+      - mysql-master1-data:/var/lib/mysql
+      - ./master1/my.cnf:/etc/mysql/my.cnf
+      - ./master1/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - mysql-network
+    restart: unless-stopped
+
+  mysql-master2:
+    image: mysql:8.0
+    container_name: mysql-master2
+    environment:
+      MYSQL_ROOT_PASSWORD: siswa
+      MYSQL_DATABASE: testdb
+      MYSQL_USER: rullabcd
+      MYSQL_PASSWORD: siswa
+    volumes:
+      - mysql-master2-data:/var/lib/mysql
+      - ./master2/my.cnf:/etc/mysql/my.cnf
+      - ./master2/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - mysql-network
+    restart: unless-stopped
+
+  mysql-slave1:
+    image: mysql:8.0
+    container_name: mysql-slave1
+    environment:
+      MYSQL_ROOT_PASSWORD: siswa
+    volumes:
+      - mysql-slave1-data:/var/lib/mysql
+      - ./slave1/my.cnf:/etc/mysql/my.cnf
+    depends_on:
+      - mysql-master
+    networks:
+      - mysql-network
+    restart: unless-stopped
+
+  mysql-slave2:
+    image: mysql:8.0
+    container_name: mysql-slave2
+    environment:
+      MYSQL_ROOT_PASSWORD: siswa
+    volumes:
+      - mysql-slave2-data:/var/lib/mysql
+      - ./slave2/my.cnf:/etc/mysql/my.cnf
+    depends_on:
+      - mysql-master
+    networks:
+      - mysql-network
+    restart: unless-stopped
+
+volumes:
+  mysql-master1-data:
+  mysql-master2-data:
+  mysql-slave1-data:
+  mysql-slave2-data:
+
+networks:
+  mysql-network:
+    driver: bridge
