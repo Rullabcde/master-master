@@ -42,7 +42,7 @@ services:
       - mysql-slave1-data:/var/lib/mysql
       - ./slave1/my.cnf:/etc/mysql/my.cnf
     depends_on:
-      - mysql-master
+      - mysql-master1
     networks:
       - mysql-network
     restart: unless-stopped
@@ -56,7 +56,7 @@ services:
       - mysql-slave2-data:/var/lib/mysql
       - ./slave2/my.cnf:/etc/mysql/my.cnf
     depends_on:
-      - mysql-master
+      - mysql-master2
     networks:
       - mysql-network
     restart: unless-stopped

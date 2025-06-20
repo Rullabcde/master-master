@@ -7,6 +7,7 @@ sleep 30
 echo "Konfigurasi Master 1"
 docker exec -i mysql-master1 mysql -uroot -psiswa -e "
 STOP SLAVE;
+RESET SLAVE ALL;
 CHANGE MASTER TO
   MASTER_HOST='mysql-master2',
   MASTER_USER='replication',
@@ -19,6 +20,7 @@ START SLAVE;
 echo "Konfigurasi Master 2"
 docker exec -i mysql-master2 mysql -uroot -psiswa -e "
 STOP SLAVE;
+RESET SLAVE ALL;
 CHANGE MASTER TO
   MASTER_HOST='mysql-master1',
   MASTER_USER='replication',
