@@ -17,7 +17,7 @@ INSERT INTO test_table (name) VALUES ('Data from Master 1');
 
 # Insert data pada Master 2
 echo "Inserting data on Master 2..."
-docker exec -i mysql-master-2 mysql -uroot -psiswa testdb -e "
+docker exec -i mysql-master2 mysql -uroot -psiswa testdb -e "
 INSERT INTO test_table (name) VALUES ('Data from Master 2');
 "
 
