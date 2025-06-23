@@ -4,9 +4,9 @@ This project sets up a simple **MySQL replication topology** using Docker. It in
 
 ---
 
-## Architecture
+## Topology
 
-<img src="architecture.png" alt="Topology" width="280"/>
+<img src="Topology.png" alt="Topology" width="400"/>
 
 ---
 
