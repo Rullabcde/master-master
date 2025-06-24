@@ -1,10 +1,13 @@
 #!/bin/bash
 
-# Tunggu Container UP
+GREEN="\033[0;32m"
+NC="\033[0m"
+
+# Tunggu container siap
 sleep 30
 
 # Setup Master 1
-echo "Konfigurasi Master 1"
+echo -e "${GREEN}Konfigurasi Master 1${NC}"
 docker exec -i mysql-master1 mysql -uroot -psiswa -e "
 STOP SLAVE;
 RESET SLAVE ALL;
@@ -17,7 +20,7 @@ START SLAVE;
 "
 
 # Setup Master 2
-echo "Konfigurasi Master 2"
+echo -e "${GREEN}Konfigurasi Master 2${NC}"
 docker exec -i mysql-master2 mysql -uroot -psiswa -e "
 STOP SLAVE;
 RESET SLAVE ALL;
@@ -30,7 +33,7 @@ START SLAVE;
 "
 
 # Setup Slave 1 Replication Master 1
-echo "Konfigurasi Slave 1"
+echo -e "${GREEN}Konfigurasi Slave 1${NC}"
 docker exec -i mysql-slave1 mysql -uroot -psiswa -e "
 STOP SLAVE;
 CHANGE MASTER TO
@@ -45,7 +48,7 @@ FLUSH PRIVILEGES;
 "
 
 # Setup Slave 2 Replication Master 2
-echo "Konfigurasi Slave 2"
+echo -e "${GREEN}Konfigurasi Slave 2${NC}"
 docker exec -i mysql-slave2 mysql -uroot -psiswa -e "
 STOP SLAVE;
 CHANGE MASTER TO
@@ -60,14 +63,14 @@ FLUSH PRIVILEGES;
 "
 
 # Cek status replikasi
-echo "Status Replikasi Master 1"
+echo -e "${GREEN}Status Replikasi Master 1${NC}"
 docker exec -i mysql-master1 mysql -uroot -psiswa -e "SHOW SLAVE STATUS\G" | grep -E "(Slave_IO_Running|Slave_SQL_Running|Seconds_Behind_Master)"
 
-echo "Status Replikasi Master 2"
+echo -e "${GREEN}Status Replikasi Master 2${NC}"
 docker exec -i mysql-master2 mysql -uroot -psiswa -e "SHOW SLAVE STATUS\G" | grep -E "(Slave_IO_Running|Slave_SQL_Running|Seconds_Behind_Master)"
 
-echo "Status Replikasi Slave 1"
+echo -e "${GREEN}Status Replikasi Slave 1${NC}"
 docker exec -i mysql-slave1 mysql -uroot -psiswa -e "SHOW SLAVE STATUS\G" | grep -E "(Slave_IO_Running|Slave_SQL_Running|Seconds_Behind_Master)"
 
-echo "Status Replikasi Slave 2"
+echo -e "${GREEN}Status Replikasi Slave 2${NC}"
 docker exec -i mysql-slave2 mysql -uroot -psiswa -e "SHOW SLAVE STATUS\G" | grep -E "(Slave_IO_Running|Slave_SQL_Running|Seconds_Behind_Master)"
